@@ -19,9 +19,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidLoad() {
         super.viewDidLoad()
         imagePicker.delegate = self
+        imagePicker.sourceType = .camera
+        imagePicker.allowsEditing = false
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage.rawValue] as? UIImage {
+            imageView.image = userPickedImage
+        }
+        
+        imagePicker.dismiss(animated: true, completion: nil)
+                        
     }
 
     @IBAction func cameraTapped(_ sender: Any) {
+        present(imagePicker, animated: true, completion: nil)
     }
     
 }
