@@ -13,63 +13,80 @@ import Vision
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var imageView: UIImageView!
-    
+    var classificationResults : [VNClassificationObservation] = []
     let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         imagePicker.delegate = self
-        imagePicker.sourceType = .camera
-        imagePicker.allowsEditing = false
+        
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func detect(image: CIImage) {
         
-        if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage.rawValue] as? UIImage {
-            imageView.image = userPickedImage
-            
-            guard let ciimage = CIImage(image: userPickedImage) else {
-                fatalError("Could not convert UIImage to CIImage!")
-            }
-            detect(image: ciimage)
-            
-        }
-        
-        imagePicker.dismiss(animated: true, completion: nil)
-                        
-    }
-    
-    func detect(image: CIImage){
+        // Load the ML model through its generated class
         guard let model = try? VNCoreMLModel(for: Inceptionv3().model) else {
-            fatalError("Loading CoreML Model failed :(")
+            fatalError("can't load ML model")
         }
         
-        let request = VNCoreMLRequest(model: model) {(request, error) in
-            guard let results = request.results as? [VNClassificationObservation] else {
-                fatalError("Model failed to process image...")
+        let request = VNCoreMLRequest(model: model) { request, error in
+            guard let results = request.results as? [VNClassificationObservation],
+                let topResult = results.first
+                else {
+                    fatalError("unexpected result type from VNCoreMLRequest")
             }
             
-            if let firstResult = results.first {
-                print(firstResult)
-                if firstResult.identifier.contains("hotdog") {
-                    self.navigationItem.title = "Hotdog! 🌭😍"
-                } else {
-                    self.navigationItem.title = "Not hotdog! 😕"
+            if topResult.identifier.contains("hotdog") {
+                DispatchQueue.main.async {
+                    self.navigationItem.title = "Hotdog!"
+                    self.navigationController?.navigationBar.barTintColor = UIColor.green
+                    self.navigationController?.navigationBar.isTranslucent = false
+                }
+            }
+            else {
+                DispatchQueue.main.async {
+                    self.navigationItem.title = "Not Hotdog!"
+                    self.navigationController?.navigationBar.barTintColor = UIColor.red
+                    self.navigationController?.navigationBar.isTranslucent = false
                 }
             }
         }
         
         let handler = VNImageRequestHandler(ciImage: image)
+        
         do {
-        try handler.perform([request])
-        } catch {
+            try handler.perform([request])
+        }
+        catch {
             print(error)
         }
     }
-
-    @IBAction func cameraTapped(_ sender: Any) {
-        present(imagePicker, animated: true, completion: nil)
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let image = info[.originalImage] as? UIImage {
+            
+            imageView.image = image
+            imagePicker.dismiss(animated: true, completion: nil)
+            guard let ciImage = CIImage(image: image) else {
+                fatalError("couldn't convert uiimage to CIImage")
+            }
+            detect(image: ciImage)
+        }
     }
     
-}
+    @IBAction func cameraTapped(_ sender: Any) {
+        
+                imagePicker.sourceType = .camera
+                imagePicker.allowsEditing = false
+                present(imagePicker, animated: true, completion: nil)
+            }
+            
+        }
 
+
+        // Helper function inserted by Swift 4.2 migrator.
+        fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+            return input.rawValue
+        }
