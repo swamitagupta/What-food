@@ -13,6 +13,7 @@
 		70366A9725062466000754FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70366A9525062466000754FA /* Main.storyboard */; };
 		70366A992506246C000754FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70366A982506246C000754FA /* Assets.xcassets */; };
 		70366A9C2506246C000754FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70366A9A2506246C000754FA /* LaunchScreen.storyboard */; };
+		70366AA4250624C2000754FA /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 70366AA3250624C2000754FA /* Inceptionv3.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		70366A982506246C000754FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		70366A9B2506246C000754FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		70366A9D2506246C000754FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		70366AA3250624C2000754FA /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				70366A982506246C000754FA /* Assets.xcassets */,
 				70366A9A2506246C000754FA /* LaunchScreen.storyboard */,
 				70366A9D2506246C000754FA /* Info.plist */,
+				70366AA3250624C2000754FA /* Inceptionv3.mlmodel */,
 			);
 			path = hotdogClassifier;
 			sourceTree = "<group>";
@@ -139,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				70366A9425062466000754FA /* ViewController.swift in Sources */,
+				70366AA4250624C2000754FA /* Inceptionv3.mlmodel in Sources */,
 				70366A9025062466000754FA /* AppDelegate.swift in Sources */,
 				70366A9225062466000754FA /* SceneDelegate.swift in Sources */,
 			);
