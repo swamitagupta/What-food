@@ -43,9 +43,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                     self.resultLabel.backgroundColor = UIColor.green
                 }
             }
+                
+            else if topResult.identifier.contains("pizza") {
+                DispatchQueue.main.async {
+                    self.resultLabel.text = "Pizza! 🍕❤️"
+                    self.resultLabel.backgroundColor = UIColor.green
+                }
+            }
             else {
                 DispatchQueue.main.async {
-                    self.resultLabel.text = "Not Hotdog! ❌😟"
+                    self.resultLabel.text = "Nor Hotdog neither Pizza! ❌😟"
                     self.resultLabel.backgroundColor = UIColor.red
                 }
             }
