@@ -13,6 +13,7 @@ import Vision
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var resultLabel: UILabel!
     var classificationResults : [VNClassificationObservation] = []
     let imagePicker = UIImagePickerController()
     
@@ -24,8 +25,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func detect(image: CIImage) {
-        
-        // Load the ML model through its generated class
+       
         guard let model = try? VNCoreMLModel(for: Inceptionv3().model) else {
             fatalError("can't load ML model")
         }
@@ -39,16 +39,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             if topResult.identifier.contains("hotdog") {
                 DispatchQueue.main.async {
-                    self.navigationItem.title = "Hotdog!"
-                    self.navigationController?.navigationBar.barTintColor = UIColor.green
-                    self.navigationController?.navigationBar.isTranslucent = false
+                    self.resultLabel.text = "Hotdog! 🌭😍"
+                    self.resultLabel.backgroundColor = UIColor.green
                 }
             }
             else {
                 DispatchQueue.main.async {
-                    self.navigationItem.title = "Not Hotdog!"
-                    self.navigationController?.navigationBar.barTintColor = UIColor.red
-                    self.navigationController?.navigationBar.isTranslucent = false
+                    self.resultLabel.text = "Not Hotdog! ❌😟"
+                    self.resultLabel.backgroundColor = UIColor.red
                 }
             }
         }
@@ -78,15 +76,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func cameraTapped(_ sender: Any) {
         
-                imagePicker.sourceType = .camera
+                imagePicker.sourceType = .photoLibrary
                 imagePicker.allowsEditing = false
                 present(imagePicker, animated: true, completion: nil)
             }
             
         }
 
-
-        // Helper function inserted by Swift 4.2 migrator.
         fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
             return input.rawValue
         }
