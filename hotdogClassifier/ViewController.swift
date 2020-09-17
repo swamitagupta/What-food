@@ -52,7 +52,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
             else {
                 DispatchQueue.main.async {
-                    self.resultLabel.text = "Nor Hotdog neither Pizza! ❌😟"
+                    self.resultLabel.text = "Neither Hotdog nor Pizza! ❌😟"
                     self.resultLabel.backgroundColor = UIColor.red
                 }
             }
