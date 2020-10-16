@@ -9,13 +9,16 @@
 import UIKit
 import CoreML
 import Vision
+import SafariServices
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var resultLabel: UILabel!
+    @IBOutlet weak var labelView: UIView!
     var classificationResults : [VNClassificationObservation] = []
     let imagePicker = UIImagePickerController()
+    var food = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,20 +43,23 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             if topResult.identifier.contains("hotdog") {
                 DispatchQueue.main.async {
                     self.resultLabel.text = "Hotdog! 🌭😍"
-                    self.resultLabel.backgroundColor = UIColor.green
+                    food = "hotdog"
+                    //self.resultLabel.backgroundColor = UIColor.green
                 }
             }
                 
             else if topResult.identifier.contains("pizza") {
                 DispatchQueue.main.async {
                     self.resultLabel.text = "Pizza! 🍕❤️"
-                    self.resultLabel.backgroundColor = UIColor.green
+                    self.labelView.backgroundColor = UIColor(named: "right")
+                    food = "pizza"
                 }
             }
             else {
                 DispatchQueue.main.async {
                     self.resultLabel.text = "Neither Hotdog nor Pizza! ❌😟"
-                    self.resultLabel.backgroundColor = UIColor.red
+                    self.labelView.backgroundColor = UIColor(named: "wrong")
+                    food = "food"
                 }
             }
         }
@@ -79,6 +85,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
             detect(image: ciImage)
         }
+    }
+    
+    func search(_ item: String){
+        if let url = URL(string: "https://www.google.com/\(item)") {
+                let config = SFSafariViewController.Configuration()
+                config.entersReaderIfAvailable = true
+                let vc = SFSafariViewController(url: url, configuration: config)
+                present(vc, animated: true)
+            }
+    }
+    
+    @IBAction func knowTapped(_ sender: Any) {
+        search(food)
     }
     
     @IBAction func cameraTapped(_ sender: Any) {

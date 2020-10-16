@@ -64,8 +64,8 @@
 				70366A9525062466000754FA /* Main.storyboard */,
 				70366A982506246C000754FA /* Assets.xcassets */,
 				70366A9A2506246C000754FA /* LaunchScreen.storyboard */,
-				70366A9D2506246C000754FA /* Info.plist */,
 				7022B3E8251BB98F0014D5A4 /* Inceptionv3.mlmodel */,
+				70366A9D2506246C000754FA /* Info.plist */,
 			);
 			path = hotdogClassifier;
 			sourceTree = "<group>";
